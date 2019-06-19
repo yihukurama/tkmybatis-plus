@@ -1,14 +1,15 @@
-package com.yihukurama.tkmybatisplus.framework.domain.tkmapper.entity.admin;
+package com.yihukurama.tkmybatisplus.framework.domain.tkmapper.entity;
 
-import com.yihukurama.tkmybatisplus.framework.domain.tkmapper.entity.BaseEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 说明： 基础用户类
  * @author dengshuai
  * @date Created in 19:27 2019/2/27
- * @modified by autor in 19:27 2019/2/27
+ *  modified by autor in 19:27 2019/2/27
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class UserEntity extends BaseEntity
 {

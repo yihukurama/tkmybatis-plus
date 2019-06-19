@@ -22,8 +22,8 @@ public class SpringBeanTools implements ApplicationContextAware {
 
     public static Object getBean(Class classname) {
         try {
-            Object _restTemplate = applicationContext.getBean(classname);
-            return _restTemplate;
+            Object restTemplate = applicationContext.getBean(classname);
+            return restTemplate;
         } catch (Exception e) {
             LogUtil.ErrorLog(SpringBeanTools.class, "使用springbeantools获取托管对象失败:" + classname);
             return "";
@@ -39,8 +39,8 @@ public class SpringBeanTools implements ApplicationContextAware {
      */
     public static Object getBeanByName(String beanName) {
         try {
-            Object _restTemplate = applicationContext.getBean(beanName);
-            return _restTemplate;
+            Object restTemplate = applicationContext.getBean(beanName);
+            return restTemplate;
         } catch (Exception e) {
             LogUtil.ErrorLog(SpringBeanTools.class, "使用springbeantools获取托管对象失败:" + beanName);
             return "";

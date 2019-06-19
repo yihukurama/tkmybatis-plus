@@ -33,7 +33,7 @@ public class EmptyUtil {
      * @Date:2017年10月16日 上午10:31:57
      */
     public static boolean isEmpty(String str) {
-        if (str == null || str.trim().equals("")) {
+        if (str == null || "".equals(str.trim())) {
             return true;
         }
         return false;

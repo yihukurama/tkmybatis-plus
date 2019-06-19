@@ -1,6 +1,6 @@
 package com.yihukurama.tkmybatisplus.app.security;
 
-import com.yihukurama.tkmybatisplus.framework.domain.tkmapper.entity.admin.UserEntity;
+import com.yihukurama.tkmybatisplus.framework.domain.tkmapper.entity.UserEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;

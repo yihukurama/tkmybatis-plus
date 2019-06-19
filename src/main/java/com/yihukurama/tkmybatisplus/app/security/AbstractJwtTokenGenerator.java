@@ -1,6 +1,6 @@
 package com.yihukurama.tkmybatisplus.app.security;
 
-import com.yihukurama.tkmybatisplus.framework.domain.tkmapper.entity.admin.UserEntity;
+import com.yihukurama.tkmybatisplus.framework.domain.tkmapper.entity.UserEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -14,13 +14,10 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public abstract class AbstractJwtTokenGenerator {
 
     /**
-     * 功能描述:给User生成token
-     *
+     * 生成token
      * @param u
-     * @param secret 秘钥
-     * @return token
-     * @Author:dengshuai
-     * @Date:2016年9月27日 下午7:57:13
+     * @param secret
+     * @return
      */
     public static String generateToken(UserEntity u, String secret) {
         Claims claims = Jwts.claims().setSubject(u.getUsername());

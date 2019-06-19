@@ -1,6 +1,8 @@
 package com.yihukurama.tkmybatisplus.framework.service.domainservice;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.yihukurama.tkmybatisplus.app.annotation.SqlCriteriaFactory;
 import com.yihukurama.tkmybatisplus.app.annotation.SqlOrderBy;
 import com.yihukurama.tkmybatisplus.app.constant.Constant;
@@ -10,10 +12,8 @@ import com.yihukurama.tkmybatisplus.app.utils.EmptyUtil;
 import com.yihukurama.tkmybatisplus.app.utils.LogUtil;
 import com.yihukurama.tkmybatisplus.framework.domain.tkmapper.MapperFactory;
 import com.yihukurama.tkmybatisplus.framework.domain.tkmapper.entity.BaseEntity;
-import com.yihukurama.tkmybatisplus.framework.domain.tkmapper.entity.admin.UserEntity;
+import com.yihukurama.tkmybatisplus.framework.domain.tkmapper.entity.UserEntity;
 import com.yihukurama.tkmybatisplus.framework.web.dto.Result;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.common.Mapper;
@@ -35,10 +35,10 @@ import java.util.UUID;
 public class CrudService<T extends BaseEntity> {
 
     @Autowired
-    MapperFactory mapperFactory;
+    private MapperFactory mapperFactory;
 
     @Autowired
-    SqlCriteriaFactory sqlCriteriaFactory;
+    private SqlCriteriaFactory sqlCriteriaFactory;
 
 
     /**
@@ -46,28 +46,26 @@ public class CrudService<T extends BaseEntity> {
      *
      * @author dengshuai
      * @date Created in 15:29 2018/4/10
-     * @modified by autor in 15:29 2018/4/10
+     * modified by autor in 15:29 2018/4/10
      */
     public T create(T t) throws TipsException {
-        Mapper<T> mapper = mapperFactory.createMapper(t.getClass().getSimpleName());
+        Mapper mapper = mapperFactory.createMapper(t.getClass().getSimpleName());
 
         String createrId = (String) getValueByField(t, MagicCode.CREATERIDFIELD);
         autoSetCommonField(t, createrId);
         t.setId(UUID.randomUUID().toString().replace("-",""));
         int row = mapper.insertSelective(t);
         if (row == 1) {
-            return mapper.selectByPrimaryKey(t);
+            return (T) mapper.selectByPrimaryKey(t);
         }
         return null;
     }
 
     /**
-     * 说明： 根据条件增加一批数据
-     * @author: ouyaokun
-     * @date: Created in 14:46 2018/5/2
-     * @modified: by autor in 14:46 2018/5/2
-     * @param
+     * 批量增加
+     * @param list
      * @return
+     * @throws TipsException
      */
     @Transactional(rollbackFor = Exception.class)
     public int creates(List<T> list) throws TipsException {
@@ -91,7 +89,7 @@ public class CrudService<T extends BaseEntity> {
      *
      * @author dengshuai
      * @date Created in 15:29 2018/4/10
-     * @modified by autor in 15:29 2018/4/10
+     * modified by autor in 15:29 2018/4/10
      */
     public T loadOneByCondition(T t) throws TipsException {
         Mapper<T> mapper = mapperFactory.createMapper(t.getClass().getSimpleName());
@@ -100,11 +98,10 @@ public class CrudService<T extends BaseEntity> {
     }
 
     /**
-     * 说明： 加载单条数据
-     *
-     * @author: dengshuai
-     * @date: Created in 11:38 2018/4/2
-     * @modified: by autor in 11:38 2018/4/2
+     * 根据id加载单条记录
+     * @param t
+     * @return
+     * @throws TipsException
      */
     public T load(T t) throws TipsException {
         Mapper<T> mapper = mapperFactory.createMapper(t.getClass().getSimpleName());
@@ -112,11 +109,10 @@ public class CrudService<T extends BaseEntity> {
     }
 
     /**
-     * 说明： 根据主键进行更新
-     *
-     * @author: dengshuai
-     * @date: Created in 15:43 2018/4/9
-     * @modified: by autor in 15:43 2018/4/9
+     * 根据id更新记录
+     * @param t
+     * @return
+     * @throws TipsException
      */
     public T update(T t) throws TipsException {
         Mapper<T> mapper = mapperFactory.createMapper(t.getClass().getSimpleName());
@@ -381,8 +377,8 @@ public class CrudService<T extends BaseEntity> {
 
         boolean hasDelStatus = false;
         Method[] methods = t.getClass().getMethods();
-        for (int i = 0; i < methods.length; i++) {
-            String methodName = methods[i].getName();
+        for (Method method1 : methods) {
+            String methodName = method1.getName();
             if (methodName.equals(MagicCode.SETDELSTATUS)) {
                 hasDelStatus = true;
                 break;
@@ -401,16 +397,18 @@ public class CrudService<T extends BaseEntity> {
                 e.printStackTrace();
                 LogUtil.ErrorLog(this,"无法生成t的实例");
             }
-            t1.setId(t.getId());
+            if(t1!=null){
+                t1.setId(t.getId());
+            }
+
 
             method.invoke(t1, Constant.DEL_STATUS_1);
             for (String id : ids) {
                 t1.setId(id);
                 autoSetCommonField(t1, operatorId);
                 Object o = mapper.updateByPrimaryKeySelective(t1);
-                if (o != null) {
-                    row++;
-                }
+                row++;
+
             }
         } else {
             for (String id : ids) {
