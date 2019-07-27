@@ -25,7 +25,7 @@ public class SqlCriteriaFactory<T extends BaseEntity> {
         JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(t));
         Set<String> keys = jsonObject.keySet();
         for (String key : keys
-                ) {
+        ) {
             String value = jsonObject.getString(key);
             String firstChar = String.valueOf(key.charAt(0));
             String getMethodName = key.replaceFirst(firstChar, firstChar.toUpperCase());
@@ -63,8 +63,10 @@ public class SqlCriteriaFactory<T extends BaseEntity> {
 
                 continue;
             }
+            if(t.getClass().getSimpleName().contains("Entity")){
+                criteria.andEqualTo(key, value);
+            }
 
-            criteria.andEqualTo(key, value);
         }
 
 

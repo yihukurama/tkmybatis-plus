@@ -7,10 +7,7 @@ import com.yihukurama.tkmybatisplus.app.annotation.SqlWhere;
 import com.yihukurama.tkmybatisplus.app.constant.MagicCode;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
@@ -33,21 +30,25 @@ public class BaseEntity {
      * 批量id处理字段
      */
     private List<String> ids;
+    /**
+     * 拼在单表查询后的sql
+     * order by (xxx,xxx desc/asc)括号部分
+     */
+    @Transient
+    protected String sortSql;
 
+    /**
+     *创建时间
+     **/
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format="yyyy-MM-dd HH:mm:ss")@Column(name="create_date")
+    private Date createDate;
     /**
      *  创建人id
      */
     @Column(name="creater_id")
     private String createrId;
 
-
-    /**
-     *  创建时间
-     */
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
-    @Column(name="create_date")
-    private Date createDate;
 
     @SqlWhere(value = SqlWhere.SqlWhereValue.IN,proprtityName = MagicCode.ID)
     public List<String> getIds() {
