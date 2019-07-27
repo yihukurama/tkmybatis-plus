@@ -22,9 +22,9 @@ public class TreeUtils {
     @Autowired
     CrudServiceFactory crudServiceFactory;
 
-    public <T extends BaseTreeEntity> List<T> treeList(List parentEntityList, Class<T> clazz) throws TipsException {
+    public <T extends BaseTreeEntity> List<T> treeList(List parentEntityList, Class<T> clazz,String domainServicePath) throws TipsException {
         try {
-            return treeList(parentEntityList, clazz, false);
+            return treeList(parentEntityList, clazz, false,domainServicePath);
         }catch(Throwable e){
             throw new TipsException(e.getMessage(), e);
         }
@@ -40,7 +40,7 @@ public class TreeUtils {
      * @param asyn 是否只搜索一级子节点
      * @return
      */
-    public <T extends BaseTreeEntity> List<T> treeList(List parentEntityList, Class<T> clazz, Boolean asyn) throws TipsException{
+    public <T extends BaseTreeEntity> List<T> treeList(List parentEntityList, Class<T> clazz, Boolean asyn,String domainServicePath) throws TipsException{
         try {
             if (parentEntityList.isEmpty()) {
                 return new ArrayList<>();
@@ -56,7 +56,7 @@ public class TreeUtils {
 
                 BaseTreeEntity condition = (BaseTreeEntity) clazz.newInstance();
                 condition.setParentId(parent.getId());
-                CrudService crudService = crudServiceFactory.createService(clazz.getSimpleName());
+                CrudService crudService = crudServiceFactory.createService(clazz.getSimpleName(),domainServicePath);
                 List<BaseTreeEntity> children = (List) crudService.list(condition, null, null).getData();
                 if (children.isEmpty()) {
                     parent.setLeaf(true);
@@ -66,7 +66,7 @@ public class TreeUtils {
                 if (asyn) {
                     continue;
                 }
-                parent.setChildren(treeList(children, clazz));
+                parent.setChildren(treeList(children, clazz,domainServicePath));
 
             }
             return parentList;
@@ -75,15 +75,15 @@ public class TreeUtils {
         }
     }
 
-    public <T extends BaseTreeEntity> List<T> treeListByCondition(BaseTreeEntity condition, Class<T> clazz) throws TipsException {
+    public <T extends BaseTreeEntity> List<T> treeListByCondition(BaseTreeEntity condition, Class<T> clazz,String domainServicePath) throws TipsException {
         try {
 
             condition = TransferUtils.transferEntity2Domain(condition, clazz);
-            CrudService crudService = crudServiceFactory.createService(clazz.getSimpleName());
+            CrudService crudService = crudServiceFactory.createService(clazz.getSimpleName(),domainServicePath);
             Boolean asyn = condition.getAsyn() == null ? false : condition.getAsyn();
             condition.clearTreeCondition();
             List parentEntity = (List) crudService.list(condition, null, null).getData();
-            return treeList(parentEntity, clazz, asyn);
+            return treeList(parentEntity, clazz, asyn,domainServicePath);
         }catch (Throwable e){
             throw new TipsException(e.getMessage(), e);
         }

@@ -22,7 +22,7 @@ public class MagicCode {
     /**
      * 排序字段的名
      */
-    public final static String INDEXORDER = "indexOrder";
+    public final static String INDEXORDER = "index_order";
     /**
      * operator字段名
      */
@@ -34,7 +34,7 @@ public class MagicCode {
     /**
      * createGT GTE LT LTE 的字段名
      */
-    public final static String CREATEDATE = "createDate";
+    public final static String CREATEDATE = "create_date";
     /**
      * ids 的字段名
      */

@@ -42,6 +42,7 @@ public class CommController {
     RedisUtils redisUtils;
 
     protected String packageD = "";
+    protected String domainServicePath = "";
     private void recordCreator(Object obj, String token) throws TipsException {
 
         String userId = (String) redisUtils.get(token+ Constant.encryptKey);
@@ -113,7 +114,7 @@ public class CommController {
         BaseEntity tt = JSON.parseObject(json, (Type) clazz);
 
         System.out.println(tt);
-        CrudService crudService = crudServiceFactory.createService(realDomain);
+        CrudService crudService = crudServiceFactory.createService(realDomain,domainServicePath);
         recordCreator(tt, request.getToken());
         recordOperator(tt, request.getToken());
         Object o = crudService.create(tt);
@@ -140,7 +141,7 @@ public class CommController {
         String json = JSON.toJSONString(request.getData());
         BaseEntity tt = JSON.parseObject(json, (Type) clazz);
 
-        CrudService crudService = crudServiceFactory.createService(realDomain);
+        CrudService crudService = crudServiceFactory.createService(realDomain,domainServicePath);
         recordOperator(tt, request.getToken());
         Object o = crudService.update(tt);
         if (o == null) {
@@ -166,7 +167,7 @@ public class CommController {
         String json = JSON.toJSONString(request.getData());
         BaseEntity tt = JSON.parseObject(json, (Type) clazz);
 
-        CrudService crudService = crudServiceFactory.createService(realDomain);
+        CrudService crudService = crudServiceFactory.createService(realDomain,domainServicePath);
         Object o = crudService.load(tt);
 
 
@@ -189,7 +190,7 @@ public class CommController {
         String json = JSON.toJSONString(request.getData());
         BaseEntity tt = JSON.parseObject(json, (Type) clazz);
 
-        CrudService crudService = crudServiceFactory.createService(realDomain);
+        CrudService crudService = crudServiceFactory.createService(realDomain,domainServicePath);
         Object o = crudService.loadOneByCondition(tt);
 
 
@@ -208,12 +209,13 @@ public class CommController {
         try {
             clazz = Class.forName(classPackage);
         } catch (ClassNotFoundException e) {
+            e.printStackTrace();
             return Result.failed("无此业务实体，无法list");
         }
         String json = JSON.toJSONString(request.getData());
         BaseEntity tt = JSON.parseObject(json, (Type) clazz);
 
-        CrudService crudService = crudServiceFactory.createService(realDomain);
+        CrudService crudService = crudServiceFactory.createService(realDomain,domainServicePath);
 
 
         return crudService.list(tt, request.getPage(), request.getLimit());
@@ -235,7 +237,7 @@ public class CommController {
         String json = JSON.toJSONString(request.getData());
         BaseEntity tt = JSON.parseObject(json, (Type) clazz);
 
-        CrudService crudService = crudServiceFactory.createService(realDomain);
+        CrudService crudService = crudServiceFactory.createService(realDomain,domainServicePath);
         recordOperator(tt, request.getToken());
         int row = crudService.remove(tt);
         if (row == 1) {
@@ -262,7 +264,7 @@ public class CommController {
         String json = JSON.toJSONString(request.getData());
         BaseEntity tt = JSON.parseObject(json, (Type) clazz);
 
-        CrudService crudService = crudServiceFactory.createService(realDomain);
+        CrudService crudService = crudServiceFactory.createService(realDomain,domainServicePath);
         int row = 0;
         try {
             recordOperator(tt, request.getToken());
@@ -298,7 +300,7 @@ public class CommController {
         }
         String json = JSON.toJSONString(request.getData());
         BaseEntity tt = JSON.parseObject(json, (Type) clazz);
-        List<BaseTreeEntity> list = treeUtils.treeListByCondition((BaseTreeEntity) tt,  (Class<BaseTreeEntity>) clazz);
+        List<BaseTreeEntity> list = treeUtils.treeListByCondition((BaseTreeEntity) tt,  (Class<BaseTreeEntity>) clazz, domainServicePath);
         for (int i = 0; i < list.size(); i++) {
             //有父级id则删除
             if(!BaseTreeEntity.ROOT.equals(list.get(i).getParentId())){

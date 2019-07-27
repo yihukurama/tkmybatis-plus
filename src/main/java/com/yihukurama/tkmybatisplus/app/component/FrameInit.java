@@ -17,19 +17,12 @@ public class FrameInit {
      * @date Created in 下午 3:11 2019/6/16 0016
      *  modified by autor in 下午 3:11 2019/6/16 0016
      */
-    public static void init(String domainServicePath,String domainPath,String mapperPath){
-        /**
-         * admin领域对象包路径
-         */
-        Constant.domainPath = domainPath;
+    public static void init(String mapperPath){
+
         /**
          * admin mapper包路径
          */
         Constant.mapperPath = mapperPath;
-        /**
-         * admin领域服务路径
-         */
-        Constant.domainServicePath = domainServicePath;
 
     }
 }

@@ -31,16 +31,8 @@ public final class Constant {
     public static String JWTSECRET = "JWTSECRET";
 
     /**
-     * admin领域对象包路径
-     */
-    public static String domainPath = "";
-    /**
      * admin mapper包路径
      */
     public static String mapperPath = "";
-    /**
-     * admin领域服务路径
-     */
-    public static String domainServicePath = "";
 
 }

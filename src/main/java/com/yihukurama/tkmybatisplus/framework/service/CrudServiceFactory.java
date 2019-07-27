@@ -1,7 +1,6 @@
 package com.yihukurama.tkmybatisplus.framework.service;
 
 import com.yihukurama.tkmybatisplus.app.component.SpringBeanTools;
-import com.yihukurama.tkmybatisplus.app.constant.Constant;
 import com.yihukurama.tkmybatisplus.app.exception.TipsException;
 import com.yihukurama.tkmybatisplus.app.utils.LogUtil;
 import com.yihukurama.tkmybatisplus.framework.service.domainservice.CrudService;
@@ -25,20 +24,20 @@ public class CrudServiceFactory {
      * @date Created in 下午 3:17 2019/6/16 0016
      *  modified by autor in 下午 3:17 2019/6/16 0016
      */
-    public CrudService createService(String domainName) throws TipsException {
+    public CrudService createService(String domainName,String domainservicePath) throws TipsException {
 
         if (domainName.endsWith(ENTITY_STRING)) {
             domainName = domainName.replace("Entity", "");
         }
-        String mapperName = domainName + "Service";
-        LogUtil.DebugLog(this, "想要获取的Service是:" + Constant.domainServicePath + mapperName);
+        String domainserviceName = domainName + "Service";
+        LogUtil.DebugLog(this, "想要获取的Service是:" + domainservicePath + domainserviceName);
         Class<?> clazz = null;
         try {
-            clazz = Class.forName(Constant.domainServicePath + mapperName);
+            clazz = Class.forName(domainservicePath + domainserviceName);
             return (CrudService) SpringBeanTools.getBean(clazz);
 
         } catch (ClassNotFoundException e) {
-
+            e.printStackTrace();
         }
         throw new TipsException("无法获得有效的service");
     }
