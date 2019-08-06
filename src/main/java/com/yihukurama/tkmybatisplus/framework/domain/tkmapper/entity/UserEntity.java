@@ -3,6 +3,8 @@ package com.yihukurama.tkmybatisplus.framework.domain.tkmapper.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.persistence.Transient;
+
 /**
  * 说明： 基础用户类
  * @author dengshuai
@@ -13,7 +15,7 @@ import lombok.EqualsAndHashCode;
 @Data
 public class UserEntity extends BaseEntity
 {
-	private String id;
+
 	/**
 	*账号
 	**/
@@ -23,8 +25,9 @@ public class UserEntity extends BaseEntity
 	**/
 	private String password;
 	/**
-	 *密码
+	 *真实姓名
 	 **/
+	@Transient
 	private String realName;
 
 }

@@ -63,9 +63,17 @@ public class SqlCriteriaFactory<T extends BaseEntity> {
 
                 continue;
             }
-            if(t.getClass().getSimpleName().contains("Entity")){
+
+            try {
+                t.getClass().getSuperclass().getDeclaredField(key);
                 criteria.andEqualTo(key, value);
+            } catch (NoSuchFieldException e) {
+                LogUtil.DebugLog(this,"创建查询条件时非Entity属性"+key);
             }
+
+
+
+
 
         }
 
