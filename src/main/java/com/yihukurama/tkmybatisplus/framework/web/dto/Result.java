@@ -29,8 +29,8 @@ public class Result {
     private Integer errorCode = 0;
 
 
-    private static final String Success="操作成功";
-    private static final String Fail="操作失败";
+    private static final String SUCCESS="操作成功";
+    private static final String FAIL="操作失败";
     public static final Boolean RESULT_SUCCESSED = true;
 
     public static final Boolean RESULT_FAILED = false;
@@ -63,7 +63,7 @@ public class Result {
     }
     public static Result successed(Object data) {
 
-        return successed(data,Success);
+        return successed(data,SUCCESS);
     }
 
     public static Result successed(Object data, String msg) {
@@ -76,7 +76,7 @@ public class Result {
 	}
 
     public static Result failed() {
-       return new Result(Fail, false);
+       return new Result(FAIL, false);
     }
 
     public static Result failed(String msg) {

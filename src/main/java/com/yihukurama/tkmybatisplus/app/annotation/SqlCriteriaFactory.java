@@ -19,7 +19,7 @@ import java.util.Set;
 @Component
 public class SqlCriteriaFactory<T extends BaseEntity> {
 
-    public Example.Criteria GeneraCriteria(Example.Criteria criteria, T t) throws NoSuchMethodException {
+    public Example.Criteria generaCriteria(Example.Criteria criteria, T t) throws NoSuchMethodException {
 
         //查询条件
         JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(t));

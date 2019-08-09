@@ -102,7 +102,7 @@ public class EncrUtil {
         return strSB.toString();
     }
 
-    private final static String[] strDigits = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d",
+    private final static String[] STR_DIGITS = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d",
             "e", "f"};
 
     // 返回形式为数字跟字符串
@@ -113,7 +113,7 @@ public class EncrUtil {
         }
         int iD1 = iRet / 16;
         int iD2 = iRet % 16;
-        return strDigits[iD1] + strDigits[iD2];
+        return STR_DIGITS[iD1] + STR_DIGITS[iD2];
     }
 
     // 返回形式只为数字
@@ -215,8 +215,8 @@ public class EncrUtil {
     }
 
 
-    private static final String sKey = "tjhstrhdrthdgaku";
-    private static final String ivParameter = "emtrhYPUIoyjdgki";
+    private static final String SKEY = "tjhstrhdrthdgaku";
+    private static final String IV_PARAMETER = "emtrhYPUIoyjdgki";
 
 
     // 加密  
@@ -228,9 +228,9 @@ public class EncrUtil {
         try {
             Cipher cipher;
             cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-            byte[] raw = sKey.getBytes();
+            byte[] raw = SKEY.getBytes();
             SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
-            IvParameterSpec iv = new IvParameterSpec(ivParameter.getBytes());// 使用CBC模式，需要一个向量iv，可增加加密算法的强度  
+            IvParameterSpec iv = new IvParameterSpec(IV_PARAMETER.getBytes());// 使用CBC模式，需要一个向量iv，可增加加密算法的强度
             cipher.init(Cipher.ENCRYPT_MODE, skeySpec, iv);
             byte[] encrypted = cipher.doFinal(sSrc.getBytes("utf-8"));
             result = new BASE64Encoder().encode(encrypted);
@@ -249,10 +249,10 @@ public class EncrUtil {
             return null;
         }
         try {
-            byte[] raw = sKey.getBytes("ASCII");
+            byte[] raw = SKEY.getBytes("ASCII");
             SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-            IvParameterSpec iv = new IvParameterSpec(ivParameter.getBytes());
+            IvParameterSpec iv = new IvParameterSpec(IV_PARAMETER.getBytes());
             cipher.init(Cipher.DECRYPT_MODE, skeySpec, iv);
             byte[] encrypted1 = new BASE64Decoder().decodeBuffer(sSrc);// 先用base64解密  
             byte[] original = cipher.doFinal(encrypted1);

@@ -41,7 +41,7 @@ public class CommController {
     @Autowired
     RedisUtils redisUtils;
 
-    protected String packageD = "";
+    protected String packageDomainPath = "";
     protected String domainServicePath = "";
     private void recordCreator(Object obj, String token) throws TipsException {
 
@@ -102,7 +102,7 @@ public class CommController {
 
         String realDomain = transferUrlDomainToDomainName(domain);
 
-        String classPackage = packageD + realDomain;
+        String classPackage = packageDomainPath + realDomain;
         LogUtil.DebugLog(this,"实体对象路径是"+classPackage);
         Class<?> clazz = null;
         try {
@@ -130,7 +130,7 @@ public class CommController {
 
         String realDomain = transferUrlDomainToDomainName(domain);
 
-        String classPackage = packageD + realDomain;
+        String classPackage = packageDomainPath + realDomain;
 
         Class<?> clazz = null;
         try {
@@ -156,7 +156,7 @@ public class CommController {
 
         String realDomain = transferUrlDomainToDomainName(domain);
 
-        String classPackage = packageD + realDomain;
+        String classPackage = packageDomainPath + realDomain;
 
         Class<?> clazz = null;
         try {
@@ -179,7 +179,7 @@ public class CommController {
 
         String realDomain = transferUrlDomainToDomainName(domain);
 
-        String classPackage = packageD + realDomain;
+        String classPackage = packageDomainPath + realDomain;
 
         Class<?> clazz = null;
         try {
@@ -203,7 +203,7 @@ public class CommController {
 
         String realDomain = transferUrlDomainToDomainName(domain);
 
-        String classPackage = packageD + realDomain;
+        String classPackage = packageDomainPath + realDomain;
 
         Class<?> clazz = null;
         try {
@@ -226,7 +226,7 @@ public class CommController {
 
         String realDomain = transferUrlDomainToDomainName(domain);
 
-        String classPackage = packageD + realDomain;
+        String classPackage = packageDomainPath + realDomain;
 
         Class<?> clazz = null;
         try {
@@ -253,7 +253,7 @@ public class CommController {
 
         String realDomain = transferUrlDomainToDomainName(domain);
 
-        String classPackage = packageD + realDomain;
+        String classPackage = packageDomainPath + realDomain;
 
         Class<?> clazz ;
         try {
@@ -286,7 +286,7 @@ public class CommController {
     @RequestMapping(value = "/{domain}/tree", method = RequestMethod.POST)
     public Result tree(@RequestBody Request request, @PathVariable String domain) throws TipsException {
         String realDomain = transferUrlDomainToDomainName(domain);
-        String classPackage = packageD + realDomain;
+        String classPackage = packageDomainPath + realDomain;
 
         Class<?> clazz = null;
         try {

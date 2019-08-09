@@ -119,11 +119,11 @@ public class CrudService<T extends BaseEntity> {
      */
     public T update(T t) throws TipsException {
         Mapper<T> mapper = mapperFactory.createMapper(t.getClass().getSimpleName());
-        T loadT = mapper.selectByPrimaryKey(t.getId());
-        if(loadT == null){
+        T loadTObject = mapper.selectByPrimaryKey(t.getId());
+        if(loadTObject == null){
             throw new TipsException("系统中无此数据");
         }
-        t.setCreateDate(loadT.getCreateDate());
+        t.setCreateDate(loadTObject.getCreateDate());
         String operatorId = (String) getValueByField(t, MagicCode.OPERATORIDFIELD);
         autoSetCommonField(t, operatorId);
 
@@ -282,7 +282,7 @@ public class CrudService<T extends BaseEntity> {
         Condition condition = new Condition(t.getClass().getSuperclass());
         Example.Criteria criteria = condition.createCriteria();
         try {
-            criteria = sqlCriteriaFactory.GeneraCriteria(criteria,t);
+            criteria = sqlCriteriaFactory.generaCriteria(criteria,t);
         } catch (NoSuchMethodException e) {
             throw new TipsException("sqlCriteriaFactory异常");
         }
