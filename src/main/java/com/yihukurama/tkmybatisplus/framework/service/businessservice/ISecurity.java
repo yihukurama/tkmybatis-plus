@@ -10,16 +10,23 @@ package com.yihukurama.tkmybatisplus.framework.service.businessservice;
 public interface ISecurity {
 
     /**
-     * 说明： 密码加密
-     *
-     * @author dengshuai
-     * @date Created in 14:49 2018/12/12
-     * @modified by autor in 14:49 2018/12/12
+     * 密码加密
+     * @param pwd
+     * @return
      */
     String pwdEncrypt(String pwd);
 
+    /**
+     * token加密
+     * @param token
+     * @return
+     */
     String tokenEncrypt(String token);
-
+    /**
+     * token解密
+     * @param encryptToken
+     * @return
+     */
     String tokenDecrypt(String encryptToken);
 
     /**

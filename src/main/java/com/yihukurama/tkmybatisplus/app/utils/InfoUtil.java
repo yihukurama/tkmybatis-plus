@@ -12,6 +12,16 @@ import java.net.UnknownHostException;
  */
 public class InfoUtil {
 
+
+
+    public final static String UNKNOW = "unknown";
+    public final static String HEADER_X = "x-forwarded-for";
+    public final static String HEADER_PCI = "Proxy-Client-IP";
+    public final static String HEADER_WPCI = "WL-Proxy-Client-IP";
+    public final static String LOCALHOST_127 = "127.0.0.1";
+    public final static int IP_LEN = 15;
+    public final static String DOT = ",";
+    public final static int IP_MAX_LEN = 100;
     /**
      * 功能描述:获取IP地址
      *
@@ -22,16 +32,16 @@ public class InfoUtil {
      */
     public static String getIpAddr(HttpServletRequest request) {
         String ipAddress = null;
-        ipAddress = request.getHeader("x-forwarded-for");
-        if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
-            ipAddress = request.getHeader("Proxy-Client-IP");
+        ipAddress = request.getHeader(HEADER_X);
+        if (ipAddress == null || ipAddress.length() == 0 || UNKNOW.equalsIgnoreCase(ipAddress)) {
+            ipAddress = request.getHeader(HEADER_PCI);
         }
-        if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
-            ipAddress = request.getHeader("WL-Proxy-Client-IP");
+        if (ipAddress == null || ipAddress.length() == 0 || UNKNOW.equalsIgnoreCase(ipAddress)) {
+            ipAddress = request.getHeader(HEADER_WPCI);
         }
-        if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
+        if (ipAddress == null || ipAddress.length() == 0 || UNKNOW.equalsIgnoreCase(ipAddress)) {
             ipAddress = request.getRemoteAddr();
-            if ("127.0.0.1".equals(ipAddress)) {
+            if (LOCALHOST_127.equals(ipAddress)) {
                 // 根据网卡取本机配置的IP
                 InetAddress inet = null;
                 try {
@@ -45,15 +55,15 @@ public class InfoUtil {
         }
 
         // 对于通过多个代理的情况，第一个IP为客户端真实IP,多个IP按照','分割
-        if (ipAddress != null && ipAddress.length() > 15) {
+        if (ipAddress != null && ipAddress.length() > IP_LEN) {
             // = 15
-            if (ipAddress.indexOf(",") > 0) {
-                ipAddress = ipAddress.substring(0, ipAddress.indexOf(","));
+            if (ipAddress.indexOf(DOT) > 0) {
+                ipAddress = ipAddress.substring(0, ipAddress.indexOf(DOT));
             }
         }
         //地址过长截取前100位
-        if (ipAddress != null && ipAddress.length() > 100) {
-            ipAddress = ipAddress.substring(0, 100);
+        if (ipAddress != null && ipAddress.length() > IP_MAX_LEN) {
+            ipAddress = ipAddress.substring(0, IP_MAX_LEN);
         }
         return ipAddress;
     }

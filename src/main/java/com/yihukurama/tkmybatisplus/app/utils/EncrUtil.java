@@ -22,14 +22,14 @@ public class EncrUtil {
 
     private static BASE64Encoder encoder = new BASE64Encoder();
     private static BASE64Decoder decoder = new BASE64Decoder();
-
+    private static final int LEN16 = 16;
     /**
      * 说明： base64加密
      * @author dengshuai
      * @date Created in 13:46 2019/1/17
      * @modified by autor in 13:46 2019/1/17
      */
-    public static String encryptBASE64(String inputStr) {
+    public static String encryptBase64(String inputStr) {
         String value = "";
         try {
             byte[] key = inputStr.getBytes();
@@ -48,7 +48,7 @@ public class EncrUtil {
      * @date Created in 13:44 2019/1/17
      * @modified by autor in 13:44 2019/1/17
      */
-    public static String decryptBASE64(String outputStr) {
+    public static String decryptBase64(String outputStr) {
         String value = "";
         try {
             byte[] key = decoder.decodeBuffer(outputStr);
@@ -67,7 +67,7 @@ public class EncrUtil {
      * @date Created in 15:33 2019/1/13
      * @modified by autor in 15:33 2019/1/13
      */
-    public static String encodeUTF8(String source){
+    public static String encodeUtf8(String source){
         String result = source;
         try {
             result = URLEncoder.encode(source, "utf-8");
@@ -91,21 +91,23 @@ public class EncrUtil {
         if (EmptyUtil.isEmpty(str)) {
             return str;
         }
-        StringBuilder strSB = new StringBuilder(str);
-        int length = strSB.length();
+        StringBuilder strSb = new StringBuilder(str);
+        int length = strSb.length();
 
         for (int i = 0; i < length; i++) {
             if (i >= begin && i < end) {
-                strSB.replace(i, i + 1, "*");
+                strSb.replace(i, i + 1, "*");
             }
         }
-        return strSB.toString();
+        return strSb.toString();
     }
 
     private final static String[] STR_DIGITS = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d",
             "e", "f"};
 
-    // 返回形式为数字跟字符串
+    /**
+     * 返回形式为数字跟字符串
+     */
     private static String byteToArrayString(byte bByte) {
         int iRet = bByte;
         if (iRet < 0) {
@@ -116,7 +118,13 @@ public class EncrUtil {
         return STR_DIGITS[iD1] + STR_DIGITS[iD2];
     }
 
-    // 返回形式只为数字
+
+
+    /**
+     * 返回形式只为数字
+     * @param bByte
+     * @return
+     */
     private static String byteToNum(byte bByte) {
         int iRet = bByte;
         System.out.println("iRet1=" + iRet);
@@ -126,7 +134,12 @@ public class EncrUtil {
         return String.valueOf(iRet);
     }
 
-    // 转换字节数组为16进制字串
+
+    /**
+     * 转换字节数组为16进制字串
+     * @param bByte
+     * @return
+     */
     private static String byteToString(byte[] bByte) {
         StringBuffer sBuffer = new StringBuffer();
         for (int i = 0; i < bByte.length; i++) {
@@ -135,7 +148,7 @@ public class EncrUtil {
         return sBuffer.toString();
     }
 
-    public static String GetMD5Code(String strObj) {
+    public static String getMd5Code(String strObj) {
         String resultString = null;
         try {
             resultString = new String(strObj);
@@ -155,13 +168,14 @@ public class EncrUtil {
      * @Author:liujun
      * @Date:2017年2月28日 下午4:15:46
      */
-    public static String gen16BitMD5String() {
-        String sourceString = UUID.randomUUID().toString().replaceAll("-", ""); // 原字符串;
+    public static String gen16BitMd5String() {
+        // 原字符串;
+        String sourceString = UUID.randomUUID().toString().replaceAll("-", "");
 
         try {
             MessageDigest messageDigest = MessageDigest.getInstance("MD5");
             messageDigest.update(sourceString.getBytes());
-            byte b[] = messageDigest.digest();
+            byte[] b = messageDigest.digest();
             int i;
             StringBuffer buf = new StringBuffer("");
             for (int offset = 0; offset < b.length; offset++) {
@@ -201,7 +215,7 @@ public class EncrUtil {
         return buf.toString();
     }
 
-    public static String SHA1EncodeSHA1(String str) {
+    public static String encodeSha1(String str) {
         if (str == null) {
             return null;
         }
@@ -219,8 +233,8 @@ public class EncrUtil {
     private static final String IV_PARAMETER = "emtrhYPUIoyjdgki";
 
 
-    // 加密  
-    public static String AESEncrypt(String sSrc) {
+
+    public static String aesEncrypt(String sSrc) {
         if (EmptyUtil.isEmpty(sSrc)) {
             return null;
         }
@@ -230,7 +244,8 @@ public class EncrUtil {
             cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
             byte[] raw = SKEY.getBytes();
             SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
-            IvParameterSpec iv = new IvParameterSpec(IV_PARAMETER.getBytes());// 使用CBC模式，需要一个向量iv，可增加加密算法的强度
+            // 使用CBC模式，需要一个向量iv，可增加加密算法的强度
+            IvParameterSpec iv = new IvParameterSpec(IV_PARAMETER.getBytes());
             cipher.init(Cipher.ENCRYPT_MODE, skeySpec, iv);
             byte[] encrypted = cipher.doFinal(sSrc.getBytes("utf-8"));
             result = new BASE64Encoder().encode(encrypted);
@@ -243,8 +258,8 @@ public class EncrUtil {
 
     }
 
-    // 解密  
-    public static String AESDecrypt(String sSrc) {
+
+    public static String aesDecrypt(String sSrc) {
         if (EmptyUtil.isEmpty(sSrc)) {
             return null;
         }
@@ -254,7 +269,8 @@ public class EncrUtil {
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
             IvParameterSpec iv = new IvParameterSpec(IV_PARAMETER.getBytes());
             cipher.init(Cipher.DECRYPT_MODE, skeySpec, iv);
-            byte[] encrypted1 = new BASE64Decoder().decodeBuffer(sSrc);// 先用base64解密  
+            // 先用base64解密
+            byte[] encrypted1 = new BASE64Decoder().decodeBuffer(sSrc);
             byte[] original = cipher.doFinal(encrypted1);
             String originalString = new String(original, "utf-8");
             return originalString;
@@ -264,14 +280,14 @@ public class EncrUtil {
         }
     }
 
-    // 加密
-    public static String EncryptAES128(String sSrc, String sKey) throws Exception {
+
+    public static String encryptAes128(String sSrc, String sKey) throws Exception {
         if (sKey == null) {
             System.out.print("Key为空null");
             return null;
         }
         // 判断Key是否为16位
-        if (sKey.length() != 16) {
+        if (sKey.length() != LEN16) {
             System.out.print("Key长度不是16位");
             return null;
         }
@@ -286,8 +302,8 @@ public class EncrUtil {
         return encoder.encodeBuffer(encrypted);
     }
 
-    // 解密
-    public static String DecryptAES128(String sSrc, String sKey) throws Exception {
+
+    public static String decryptAes128(String sSrc, String sKey) throws Exception {
         try {
             // 判断Key是否正确
             if (sKey == null) {
@@ -295,7 +311,7 @@ public class EncrUtil {
                 return null;
             }
             // 判断Key是否为16位
-            if (sKey.length() != 16) {
+            if (sKey.length() != LEN16) {
                 System.out.print("Key长度不是16位");
                 return null;
             }

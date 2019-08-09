@@ -44,7 +44,7 @@ public class CompressUtil {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             } finally {
-                IOUtil.closeQuietly(zos, fos);
+                IoUtil.closeQuietly(zos, fos);
             }
         }
         return target;
@@ -80,7 +80,7 @@ public class CompressUtil {
                 }
                 zos.closeEntry();
             } finally {
-                IOUtil.closeQuietly(bis, fis);
+                IoUtil.closeQuietly(bis, fis);
             }
         }
     }
@@ -99,7 +99,6 @@ public class CompressUtil {
                 ZipEntry entry = null;
                 while ((entry = zis.getNextEntry()) != null
                         && !entry.isDirectory()) {
-//                    File target = new File(source.getParent(), entry.getName());
                     File target = new File(outFilePath, entry.getName());
                     if (!target.getParentFile().exists()) {
                         // 创建文件父目录
@@ -118,7 +117,7 @@ public class CompressUtil {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             } finally {
-                IOUtil.closeQuietly(zis, bos);
+                IoUtil.closeQuietly(zis, bos);
             }
         }
     }
@@ -138,7 +137,6 @@ public class CompressUtil {
                 ZipEntry entry = null;
                 while ((entry = zis.getNextEntry()) != null
                         && !entry.isDirectory()) {
-//                    File target = new File(source.getParent(), entry.getName());
                     File target = new File(outFilePath, entry.getName());
                     if (!target.getParentFile().exists()) {
                         // 创建文件父目录
@@ -158,7 +156,7 @@ public class CompressUtil {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             } finally {
-                IOUtil.closeQuietly(zis, bos);
+                IoUtil.closeQuietly(zis, bos);
             }
         }
         return result;
@@ -178,7 +176,7 @@ public class CompressUtil {
  * @author liujiduo
  *
  */
-class IOUtil {
+class IoUtil {
     /**
      * 关闭一个或多个流对象
      *

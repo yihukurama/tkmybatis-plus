@@ -120,11 +120,11 @@ public class CrudService<T extends BaseEntity> {
      */
     public T update(T t) throws TipsException {
         Mapper<T> mapper = mapperFactory.createMapper(t.getClass().getSimpleName());
-        T loadTObject = mapper.selectByPrimaryKey(t.getId());
-        if(loadTObject == null){
+        T loadObject = mapper.selectByPrimaryKey(t.getId());
+        if(loadObject == null){
             throw new TipsException("系统中无此数据");
         }
-        t.setCreateDate(loadTObject.getCreateDate());
+        t.setCreateDate(loadObject.getCreateDate());
         String operatorId = (String) getValueByField(t, MagicCode.OPERATORIDFIELD);
         autoSetCommonField(t, operatorId);
 
@@ -274,7 +274,7 @@ public class CrudService<T extends BaseEntity> {
         Result result;
 
         //是Entity
-        if(t.getClass().getSimpleName().contains("Entity")){
+        if(t.getClass().getSimpleName().contains(MagicCode.ENTITY)){
             throw new TipsException("该list接口仅允许领域对象使用");
         }
         LogUtil.DebugLog(this, "查询条件是：" + JSON.toJSONString(t));

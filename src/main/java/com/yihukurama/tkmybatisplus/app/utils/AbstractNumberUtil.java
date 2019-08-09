@@ -14,7 +14,7 @@ import java.util.Random;
  * Created by Eclipse
  * @date 2016年9月6日
  */
-public abstract class NumberUtil {
+public abstract class AbstractNumberUtil {
     /**
      * 功能描述:将数值型数组转换为字符串,例如输入数组为[1,2,3],转换之后的结果为"1,2,3";
      *

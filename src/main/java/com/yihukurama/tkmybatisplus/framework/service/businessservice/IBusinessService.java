@@ -12,10 +12,9 @@ import com.yihukurama.tkmybatisplus.framework.web.dto.Result;
 public interface IBusinessService {
 
     /**
-     * 说明： 执行业务方法
-     * @author yihukurma
-     * @date Created in 下午 3:16 2019/6/16 0016
-     *  modified by autor in 下午 3:16 2019/6/16 0016
+     * 执行业务
+     * @param request
+     * @return
      */
     Result doBusiness(Request request);
 }

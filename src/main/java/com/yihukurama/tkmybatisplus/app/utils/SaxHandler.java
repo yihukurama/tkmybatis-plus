@@ -14,9 +14,18 @@ import java.util.Map;
  * @date:2016年9月5日
  */
 public class SaxHandler extends DefaultHandler {
-    private Map<String, String> dataMap;   // 保存xml文件中的键值对数据;
-    private String currentNode;            // 当前节点名称;
-    private String currentValue;           // 当前节点值;
+    /**
+     *保存xml文件中的键值对数据;
+     */
+    private Map<String, String> dataMap;
+    /**
+     *当前节点名称;
+     */
+    private String currentNode;
+    /**
+     *当前节点值;
+     */
+    private String currentValue;
 
 
     public SaxHandler() {
@@ -32,7 +41,7 @@ public class SaxHandler extends DefaultHandler {
 
     @Override
     public void startDocument() throws SAXException {
-        dataMap = new HashMap<>();
+        dataMap = new HashMap<>(100);
     }
 
 

@@ -8,6 +8,10 @@ package com.yihukurama.tkmybatisplus.app.constant;
  */
 public class MagicCode {
     /**
+     * 数据实体类后缀
+     */
+    public final static String ENTITY = "Entity";
+    /**
      * setDelStatus的方法名
      */
     public final static String SETDELSTATUS = "setIsDelete";

@@ -11,17 +11,17 @@ import org.slf4j.LoggerFactory;
  */
 public class LogUtil {
 
-    public static void DebugLog(Object o, String msg) {
+    public static void debugLog(Object o, String msg) {
         Logger logger = LoggerFactory.getLogger(o.getClass());
         logger.debug("=============>"+msg);
     }
 
-    public static void InfoLog(Object o, String msg) {
+    public static void infoLog(Object o, String msg) {
         Logger logger = LoggerFactory.getLogger(o.getClass());
         logger.info("=============>"+msg);
     }
 
-    public static void ErrorLog(Object o, String msg) {
+    public static void errorLog(Object o, String msg) {
         Logger logger = LoggerFactory.getLogger(o.getClass());
         logger.error("=============>"+msg);
     }
