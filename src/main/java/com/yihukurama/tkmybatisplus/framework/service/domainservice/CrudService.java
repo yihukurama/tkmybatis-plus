@@ -26,10 +26,11 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * 说明： 领域服务基础增删查改
- * @author yihukurma
- * @date Created in 下午 3:16 2019/6/16 0016
- *  modified by autor in 下午 3:16 2019/6/16 0016
+ * 说明： 领域服务的基础增删查改
+ *
+ * @author: dengshuai
+ * @date: Created in 11:37 2018/4/2
+ * modified: by autor in 11:37 2018/4/2
  */
 public class CrudService<T extends BaseEntity> {
 
