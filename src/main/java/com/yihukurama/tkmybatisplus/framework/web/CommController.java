@@ -103,7 +103,7 @@ public class CommController {
         String realDomain = transferUrlDomainToDomainName(domain);
 
         String classPackage = packageDomainPath + realDomain;
-        LogUtil.DebugLog(this,"实体对象路径是"+classPackage);
+        LogUtil.debugLog(this,"实体对象路径是"+classPackage);
         Class<?> clazz = null;
         try {
             clazz = Class.forName(classPackage);

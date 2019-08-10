@@ -36,7 +36,7 @@ public class EncrUtil {
             value = encoder.encodeBuffer(key);
         } catch (Exception e) {
             e.printStackTrace();
-            LogUtil.ErrorLog(EncrUtil.class,"base64解密出错");
+            LogUtil.debugLog(EncrUtil.class,"base64解密出错");
             return "";
         }
         return value;
@@ -54,7 +54,7 @@ public class EncrUtil {
             byte[] key = decoder.decodeBuffer(outputStr);
             value = new String(key);
         } catch (Exception e) {
-            LogUtil.ErrorLog(EncrUtil.class,"base64解密出错");
+            LogUtil.debugLog(EncrUtil.class,"base64解密出错");
             return "";
         }
         return value;

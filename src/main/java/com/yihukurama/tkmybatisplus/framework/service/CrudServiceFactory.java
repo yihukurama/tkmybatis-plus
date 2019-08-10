@@ -30,7 +30,7 @@ public class CrudServiceFactory {
             domainName = domainName.replace("Entity", "");
         }
         String domainserviceName = domainName + "Service";
-        LogUtil.DebugLog(this, "想要获取的Service是:" + domainservicePath + domainserviceName);
+        LogUtil.debugLog(this, "想要获取的Service是:" + domainservicePath + domainserviceName);
         Class<?> clazz = null;
         try {
             clazz = Class.forName(domainservicePath + domainserviceName);

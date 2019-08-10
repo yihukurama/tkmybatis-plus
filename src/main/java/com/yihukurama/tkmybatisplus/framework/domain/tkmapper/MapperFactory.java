@@ -31,7 +31,7 @@ public class MapperFactory {
             domainName = domainName.replace("Entity", "");
         }
         String mapperName = domainName + "Mapper";
-        LogUtil.DebugLog(this, "想要获取的Mapper是:" + Constant.mapperPath + mapperName);
+        LogUtil.debugLog(this, "想要获取的Mapper是:" + Constant.mapperPath + mapperName);
         Class<?> clazz = null;
         try {
             clazz = Class.forName(Constant.mapperPath + mapperName);

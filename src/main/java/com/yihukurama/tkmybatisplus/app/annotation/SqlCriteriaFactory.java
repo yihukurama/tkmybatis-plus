@@ -29,7 +29,7 @@ public class SqlCriteriaFactory<T extends BaseEntity> {
             String value = jsonObject.getString(key);
             String firstChar = String.valueOf(key.charAt(0));
             String getMethodName = key.replaceFirst(firstChar, firstChar.toUpperCase());
-            LogUtil.DebugLog(this, "get方法是=====>get" + getMethodName);
+            LogUtil.debugLog(this, "get方法是=====>get" + getMethodName);
             Method getMethod = t.getClass().getMethod("get" + getMethodName);
             SqlWhere sqlWhere = getMethod.getAnnotation(SqlWhere.class);
             if (sqlWhere != null) {
@@ -52,13 +52,13 @@ public class SqlCriteriaFactory<T extends BaseEntity> {
                     value = "'"+value+"'";
                 }
                 //针对createGT等范围查询需要得到对应的字段，如create
-                LogUtil.DebugLog(this,"条件查询的注解名是"+sqlWhere.value().name());
-                LogUtil.DebugLog(this,"条件查询的key名是"+ key);
+                LogUtil.debugLog(this,"条件查询的注解名是"+sqlWhere.value().name());
+                LogUtil.debugLog(this,"条件查询的key名是"+ key);
                 if(key.contains(sqlWhere.value().name())){
                     key = key.replace(sqlWhere.value().name(),"");
                 }
 
-                LogUtil.DebugLog(this,"最后条件查询的key名是"+ key);
+                LogUtil.debugLog(this,"最后条件查询的key名是"+ key);
                 criteria.andCondition(key + sqlWhereValue + value);
 
                 continue;
@@ -68,7 +68,7 @@ public class SqlCriteriaFactory<T extends BaseEntity> {
                 t.getClass().getSuperclass().getDeclaredField(key);
                 criteria.andEqualTo(key, value);
             } catch (NoSuchFieldException e) {
-                LogUtil.DebugLog(this,"创建查询条件时非Entity属性"+key);
+                LogUtil.debugLog(this,"创建查询条件时非Entity属性"+key);
             }
 
 

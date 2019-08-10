@@ -27,11 +27,11 @@ public class BusinessServiceImpl implements IBusinessService {
             return Result.failed("无法找到此接口映射，请确认已初始化此接口");
         }
         String methName = servicePath.getMethName();
-        LogUtil.DebugLog(this,"业务方法名是："+methName);
+        LogUtil.debugLog(this,"业务方法名是："+methName);
 
         try {
             String className = this.getClass().getName();
-            LogUtil.DebugLog(this,"当前类是："+className);
+            LogUtil.debugLog(this,"当前类是："+className);
             Method callMethod = this.getClass().getMethod(methName,Request.class);
 
 

@@ -158,7 +158,7 @@ public class CrudService<T extends BaseEntity> {
         try {
             return getMethod.invoke(t);
         }catch (Exception e){
-            LogUtil.ErrorLog(this, e.getMessage());
+            LogUtil.debugLog(this, e.getMessage());
         }
 
         return null;
@@ -195,7 +195,7 @@ public class CrudService<T extends BaseEntity> {
 
             setMethod.invoke(t, defaultValue);
         }catch (Exception e){
-            LogUtil.ErrorLog(this, e.getMessage());
+            LogUtil.debugLog(this, e.getMessage());
         }
 
     }
@@ -219,7 +219,7 @@ public class CrudService<T extends BaseEntity> {
         try{
             setMethod = t.getClass().getMethod(MagicCode.SETDELSTATUS, Boolean.class);
         }catch (NoSuchMethodException e) {
-            LogUtil.DebugLog(this,"无法自动setIsDelete,不需要根据is_delete查询");
+            LogUtil.debugLog(this,"无法自动setIsDelete,不需要根据is_delete查询");
         }
         if(setMethod == null) {
             return;
@@ -229,7 +229,7 @@ public class CrudService<T extends BaseEntity> {
         try {
             getMethod = t.getClass().getMethod(MagicCode.GETDELSTATUS);
         }catch (NoSuchMethodException e){
-            LogUtil.DebugLog(this,"无法获得getIsDelete,不需要根据is_delete查询");
+            LogUtil.debugLog(this,"无法获得getIsDelete,不需要根据is_delete查询");
         }
 
         try {
@@ -240,7 +240,7 @@ public class CrudService<T extends BaseEntity> {
 
             setMethod.invoke(t, Constant.DEL_STATUS_0);
         }catch (Exception e){
-            LogUtil.ErrorLog(this, e.getMessage());
+            LogUtil.debugLog(this, e.getMessage());
         }
     }
 
@@ -277,9 +277,9 @@ public class CrudService<T extends BaseEntity> {
         if(t.getClass().getSimpleName().contains(MagicCode.ENTITY)){
             throw new TipsException("该list接口仅允许领域对象使用");
         }
-        LogUtil.DebugLog(this, "查询条件是：" + JSON.toJSONString(t));
+        LogUtil.debugLog(this, "查询条件是：" + JSON.toJSONString(t));
         //给查询赋值
-        LogUtil.DebugLog(this,"当前查询业务类是"+t.getClass().getName());
+        LogUtil.debugLog(this,"当前查询业务类是"+t.getClass().getName());
         Condition condition = new Condition(t.getClass().getSuperclass());
         Example.Criteria criteria = condition.createCriteria();
         try {
@@ -294,7 +294,7 @@ public class CrudService<T extends BaseEntity> {
         Method[] methods = t.getClass().getMethods();
         for (int i = 0; i < methods.length; i++) {
             String methodName = methods[i].getName();
-            LogUtil.DebugLog(this,methodName);
+            LogUtil.debugLog(this,methodName);
             if(methodName.equals(MagicCode.SETINDEXORDER)){
                 hasIndexOrder = true;
             }
@@ -406,7 +406,7 @@ public class CrudService<T extends BaseEntity> {
 
             } catch (InstantiationException e) {
                 e.printStackTrace();
-                LogUtil.ErrorLog(this,"无法生成t的实例");
+                LogUtil.debugLog(this,"无法生成t的实例");
             }
             t1.setId(t.getId());
 
