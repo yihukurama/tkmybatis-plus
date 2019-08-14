@@ -1,6 +1,5 @@
 package com.yihukurama.tkmybatisplus.app.cache;
 
-import lombok.Builder;
 import lombok.Data;
 
 /**

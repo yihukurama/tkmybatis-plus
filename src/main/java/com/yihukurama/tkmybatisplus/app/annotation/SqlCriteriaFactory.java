@@ -71,10 +71,6 @@ public class SqlCriteriaFactory<T extends BaseEntity> {
                 LogUtil.debugLog(this,"创建查询条件时非Entity属性"+key);
             }
 
-
-
-
-
         }
 
 

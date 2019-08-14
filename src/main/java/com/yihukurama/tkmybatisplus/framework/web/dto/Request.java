@@ -17,8 +17,11 @@ public class Request<T> {
      * 用户token;
      */
     private String token;
+
     private String code;
+
     private Integer page;
+
     private Integer limit;
     /**
      * 请求数据;
