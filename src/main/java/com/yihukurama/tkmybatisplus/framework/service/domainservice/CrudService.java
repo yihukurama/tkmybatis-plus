@@ -53,7 +53,10 @@ public class CrudService<T extends BaseEntity> {
 
         String createrId = (String) getValueByField(t, MagicCode.CREATERIDFIELD);
         autoSetCommonField(t, createrId);
-        t.setId(UUID.randomUUID().toString().replace("-",""));
+        //创建时id为空时才生成uuid
+        if(EmptyUtil.isEmpty(t.getId())){
+            t.setId(UUID.randomUUID().toString().replace("-",""));
+        }
         int row = mapper.insertSelective(t);
         if (row == 1) {
             return mapper.selectByPrimaryKey(t);
@@ -282,12 +285,12 @@ public class CrudService<T extends BaseEntity> {
         LogUtil.debugLog(this,"当前查询业务类是"+t.getClass().getName());
         Condition condition = new Condition(t.getClass().getSuperclass());
         Example.Criteria criteria = condition.createCriteria();
+        changeDelStatusIfNull(t);
         try {
             criteria = sqlCriteriaFactory.generaCriteria(criteria,t);
         } catch (NoSuchMethodException e) {
             throw new TipsException("sqlCriteriaFactory异常");
         }
-        changeDelStatusIfNull(t);
         boolean hasIndexOrder = false;
 
         //排序
